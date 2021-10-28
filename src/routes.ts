@@ -3,7 +3,7 @@ import { CreatePostController, DeletePostController, GetPostByIdController, GetP
 
 const router = new Router()
 
-router.post('/post', new CreatePostController().handle)
+router.post('/posts', new CreatePostController().handle)
 router.delete('/posts/:id', new DeletePostController().handle)
 router.get('/posts', new GetPostsController().handle)
 router.get('/posts/:id', new GetPostByIdController().handle)
