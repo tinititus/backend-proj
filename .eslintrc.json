@@ -11,6 +11,9 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
+    "semi": "off",
+    "object-curly-spacing": "off",
+    "no-unused-vars": "warn",
     "prettier/prettier": [
       "error",
       { "singleQuote": true, "semi": false, "trailingComma": "all" }
