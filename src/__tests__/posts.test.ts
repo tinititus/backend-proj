@@ -15,7 +15,7 @@ describe('POST /posts', () => {
   it('should create a new post', async () => {
     const service = new CreatePostService()
     prismaMock.post.create.mockResolvedValue(post)
-    await expect(service.execute(post.title,post.content)).resolves.toEqual({
+    await expect(service.execute(post.title, post.content)).resolves.toEqual({
       id: '1',
       title: 'title-test',
       content: 'content-test',
@@ -24,8 +24,6 @@ describe('POST /posts', () => {
     })
   })
 })
-
-
 
 describe('GET /posts', () => {
   it('should return all posts', async () => {
