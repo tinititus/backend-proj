@@ -6,7 +6,6 @@ class CreatePostController {
     const { title, content } = ctx.request.body
     const service = new CreatePostService()
     const result = await service.execute(title, content)
-    // ctx.status = 201
     return (ctx.body = result)
   }
 }
@@ -24,8 +23,6 @@ class GetPostsController {
   async handle(ctx: Context) {
     const service = new GetPostsService()
     const result = await service.execute()
-    console.log(result)
-    
     return (ctx.body = result)
   }
 }
