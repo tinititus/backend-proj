@@ -1,5 +1,11 @@
 import Router from 'koa-router'
-import { CreatePostController, DeletePostController, GetPostByIdController, GetPostsController, UpdatePostController } from './controllers/PostController'
+import {
+  CreatePostController,
+  DeletePostController,
+  GetPostByIdController,
+  GetPostsController,
+  UpdatePostController,
+} from './controllers/PostController'
 
 const router = new Router()
 

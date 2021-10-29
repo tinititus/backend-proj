@@ -23,9 +23,9 @@ class DeletePostService {
         },
       })
       return `Post (id: ${id}) deleted successfully`
-    } catch(err: unknown) {
+    } catch (err: unknown) {
       throw new Error('Could not find post')
-    }  
+    }
   }
 }
 
@@ -61,4 +61,10 @@ class UpdatePostService {
   }
 }
 
-export { CreatePostService, DeletePostService, GetPostsService, GetPostByIdService, UpdatePostService }
+export {
+  CreatePostService,
+  DeletePostService,
+  GetPostsService,
+  GetPostByIdService,
+  UpdatePostService,
+}

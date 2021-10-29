@@ -1,5 +1,11 @@
 import { Context } from 'koa'
-import { CreatePostService, DeletePostService, GetPostByIdService, GetPostsService, UpdatePostService } from '../services/PostService'
+import {
+  CreatePostService,
+  DeletePostService,
+  GetPostByIdService,
+  GetPostsService,
+  UpdatePostService,
+} from '../services/PostService'
 
 class CreatePostController {
   async handle(ctx: Context) {
@@ -46,4 +52,10 @@ class UpdatePostController {
   }
 }
 
-export { CreatePostController, DeletePostController, GetPostsController, GetPostByIdController, UpdatePostController }
+export {
+  CreatePostController,
+  DeletePostController,
+  GetPostsController,
+  GetPostByIdController,
+  UpdatePostController,
+}
