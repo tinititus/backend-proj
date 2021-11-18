@@ -12,11 +12,18 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "semi": "off",
+    "require-jsdoc": "off",
     "object-curly-spacing": "off",
+    "indent": "warn",
+    "comma-dangle": "warn",
     "no-unused-vars": "warn",
     "prettier/prettier": [
       "error",
-      { "singleQuote": true, "semi": false, "trailingComma": "all" }
+      {
+        "singleQuote": true,
+        "semi": false,
+        "trailingComma": true
+      }
     ]
   }
 }
