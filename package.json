@@ -1,6 +1,6 @@
 {
   "author": "tinititus <tito.carvalho@fdte.io>",
-  "name": "reddit-clone",
+  "name": "backend-proj",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:tinititus/reddit-clone.git",
@@ -38,8 +38,10 @@
   },
   "dependencies": {
     "@prisma/client": "^3.5.0",
+    "argon2": "^0.28.2",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
+    "koa-combine-routers": "^4.0.2",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.1.1"
   }
