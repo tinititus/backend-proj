@@ -5,7 +5,7 @@ import {
   GetPostByIdController,
   GetPostsController,
   UpdatePostController,
-} from './controllers/PostController'
+} from '../controllers/PostController'
 
 const router = new Router()
 
@@ -15,4 +15,4 @@ router.get('/posts', new GetPostsController().handle)
 router.get('/posts/:id', new GetPostByIdController().handle)
 router.patch('/posts/:id', new UpdatePostController().handle)
 
-export { router }
+export default router
