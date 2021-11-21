@@ -22,7 +22,7 @@ class DeletePostService {
           id: id,
         },
       })
-      return `Post (id: ${id}) deleted successfully`
+      return { message: 'Post deleted successfully!', postId: id }
     } catch (err: unknown) {
       throw new Error('Could not find post')
     }
