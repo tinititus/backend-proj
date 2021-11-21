@@ -1,2 +1,2 @@
-# reddit-clone
-Minimalist reddit clone project
+# backend-proj
+Backend app with basic social media features
