@@ -36,6 +36,7 @@ class DeletePostService {
 class GetPostsService {
   async execute() {
     const posts = await prismaClient.post.findMany()
+
     return posts
   }
 }

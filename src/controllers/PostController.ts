@@ -12,6 +12,7 @@ class CreatePostController {
     const { title, content } = ctx.request.body
     const service = new CreatePostService()
     const result = await service.execute(title, content)
+
     return (ctx.body = result)
   }
 }
@@ -21,6 +22,7 @@ class DeletePostController {
     const { id } = ctx.params
     const service = new DeletePostService()
     const result = await service.execute(id)
+
     return (ctx.body = result)
   }
 }
@@ -29,6 +31,7 @@ class GetPostsController {
   async handle(ctx: Context) {
     const service = new GetPostsService()
     const result = await service.execute()
+
     return (ctx.body = result)
   }
 }
@@ -38,6 +41,7 @@ class GetPostByIdController {
     const { id } = ctx.params
     const service = new GetPostByIdService()
     const result = await service.execute(id)
+
     return (ctx.body = result)
   }
 }
@@ -48,6 +52,7 @@ class UpdatePostController {
     const { content } = ctx.request.body
     const service = new UpdatePostService()
     const result = await service.execute(id, content)
+
     return (ctx.body = result)
   }
 }
