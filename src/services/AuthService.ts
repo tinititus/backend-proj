@@ -1,16 +1,19 @@
 import prismaClient from '../prisma'
 import argon2 from 'argon2'
 
+import { Error } from '../types'
 class SignupService {
   async execute(email: string, password: string) {
-    const userExists = await prismaClient.user.findUnique({
+    const userAlreadyExists = await prismaClient.user.findUnique({
       where: {
         email: email,
       },
     })
 
-    if (userExists) {
-      throw new Error('User already exists.')
+    if (userAlreadyExists) {
+      const error = new Error('User already exists') as Error
+      error.statusCode = 400
+      throw error
     }
 
     const hashedPassword = await argon2.hash(password)

@@ -1,4 +1,5 @@
 import prismaClient from '../prisma'
+import { Error } from '../types'
 
 class CreatePostService {
   async execute(title: string, content: string) {
@@ -24,7 +25,10 @@ class DeletePostService {
       })
       return { message: 'Post deleted successfully!', postId: id }
     } catch (err: unknown) {
-      throw new Error('Could not find post')
+      const error = err as Error
+      error.message = 'Record to delete does not exist.'
+      error.statusCode = 400
+      throw error
     }
   }
 }
