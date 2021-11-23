@@ -28,4 +28,30 @@ class SignupService {
   }
 }
 
-export { SignupService }
+class LoginService {
+  async execute(email: string, password: string) {
+    const user = await prismaClient.user.findUnique({
+      where: {
+        email: email,
+      },
+    })
+
+    if (!user) {
+      const error = new Error('Invalid credentials') as Error
+      error.statusCode = 401
+      throw error
+    }
+
+    const isPasswordValid = await argon2.verify(user.password, password)
+
+    if (!isPasswordValid) {
+      const error = new Error('Invalid credentials') as Error
+      error.statusCode = 401
+      throw error
+    }
+
+    return { userId: user.id }
+  }
+}
+
+export { SignupService, LoginService }
