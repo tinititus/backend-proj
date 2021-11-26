@@ -1,13 +1,13 @@
 import request from 'supertest'
-import { server } from '../server'
+import { server } from '../../server'
 import {
   CreatePostService,
   DeletePostService,
   GetPostByIdService,
   GetPostsService,
   UpdatePostService,
-} from '../services/PostService'
-import { prismaMock } from './../singleton'
+} from './PostService'
+import { prismaMock } from '../../singleton'
 
 const newDate = new Date()
 const post = {
@@ -59,8 +59,9 @@ describe('DELETE /posts/:id', () => {
   it('should delete a post', async () => {
     const service = new DeletePostService()
     prismaMock.post.delete.mockResolvedValue(post)
-    await expect(service.execute(post.id)).resolves.toBe(
-      'Post (id: 1) deleted successfully'
-    )
+    await expect(service.execute(post.id)).resolves.toEqual({
+      message: 'Post deleted successfully!',
+      postId: '1',
+    })
   })
 })

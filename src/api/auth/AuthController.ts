@@ -1,5 +1,5 @@
 import { Context } from 'koa'
-import { LoginService, SignupService } from '../services/AuthService'
+import { LoginService, SignupService } from './AuthService'
 
 class SignupController {
   async handle(ctx: Context) {

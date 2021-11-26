@@ -1,5 +1,5 @@
-import prismaClient from '../prisma'
-import { createAndThrowError } from '../utils/createAndThrowError'
+import prismaClient from '../../prisma'
+import { createAndThrowError } from '../../utils/createAndThrowError'
 
 class CreatePostService {
   async execute(title: string, content: string) {

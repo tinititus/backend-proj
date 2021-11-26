@@ -5,8 +5,8 @@ import {
   GetPostByIdController,
   GetPostsController,
   UpdatePostController,
-} from '../controllers/PostController'
-import { isAuth } from '../middlewares/isAuth'
+} from './PostController'
+import { isAuth } from '../../middlewares/isAuth'
 
 const router = new Router()
 

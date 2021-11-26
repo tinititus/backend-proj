@@ -5,7 +5,7 @@ import {
   GetPostByIdService,
   GetPostsService,
   UpdatePostService,
-} from '../services/PostService'
+} from './PostService'
 
 class CreatePostController {
   async handle(ctx: Context) {

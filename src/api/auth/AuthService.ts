@@ -1,7 +1,7 @@
-import prismaClient from '../prisma'
+import prismaClient from '../../prisma'
 import argon2 from 'argon2'
 
-import { createAndThrowError } from '../utils/createAndThrowError'
+import { createAndThrowError } from '../../utils/createAndThrowError'
 
 class SignupService {
   async execute(email: string, password: string) {
