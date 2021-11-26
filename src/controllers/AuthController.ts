@@ -16,8 +16,12 @@ class LoginController {
     const { email, password } = ctx.request.body
     const service = new LoginService()
     const result = await service.execute(email, password)
-    ctx.state.user = result.userId
-
+    const { user } = result
+    if (user) {
+      ctx.cookies.set('isAuth', 'true', {
+        expires: new Date(Date.now() + 3600 * 1000),
+      })
+    }
     return (ctx.body = result)
   }
 }
