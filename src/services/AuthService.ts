@@ -1,7 +1,8 @@
 import prismaClient from '../prisma'
 import argon2 from 'argon2'
 
-import { Error } from '../types'
+import { createAndThrowError } from '../utils/createAndThrowError'
+
 class SignupService {
   async execute(email: string, password: string) {
     const userAlreadyExists = await prismaClient.user.findUnique({
@@ -11,9 +12,7 @@ class SignupService {
     })
 
     if (userAlreadyExists) {
-      const error = new Error('User already exists') as Error
-      error.statusCode = 400
-      throw error
+      createAndThrowError('User already exists.', 400)
     }
 
     const hashedPassword = await argon2.hash(password)
@@ -37,20 +36,16 @@ class LoginService {
     })
 
     if (!user) {
-      const error = new Error('Invalid credentials') as Error
-      error.statusCode = 401
-      throw error
+      createAndThrowError('Invalid credentials.', 401)
     }
 
-    const isPasswordValid = await argon2.verify(user.password, password)
+    const isPasswordValid = await argon2.verify(user!.password, password)
 
     if (!isPasswordValid) {
-      const error = new Error('Invalid credentials') as Error
-      error.statusCode = 401
-      throw error
+      createAndThrowError('Invalid credentials.', 401)
     }
 
-    return { userId: user.id }
+    return { user: user }
   }
 }
 
