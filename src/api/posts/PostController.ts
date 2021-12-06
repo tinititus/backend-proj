@@ -21,8 +21,9 @@ class CreatePostController {
 class DeletePostController {
   async handle(ctx: Context) {
     const { id } = ctx.params
+    const userId = ctx.state.user
     const service = new DeletePostService()
-    const result = await service.execute(id)
+    const result = await service.execute(id, userId)
 
     return (ctx.body = result)
   }
@@ -51,8 +52,9 @@ class UpdatePostController {
   async handle(ctx: Context) {
     const { id } = ctx.params
     const { content } = ctx.request.body
+    const userId = ctx.state.user
     const service = new UpdatePostService()
-    const result = await service.execute(id, content)
+    const result = await service.execute(id, content, userId)
 
     return (ctx.body = result)
   }
