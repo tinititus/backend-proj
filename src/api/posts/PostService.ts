@@ -2,11 +2,12 @@ import prismaClient from '../../prisma'
 import { createAndThrowError } from '../../utils/createAndThrowError'
 
 class CreatePostService {
-  async execute(title: string, content: string) {
+  async execute(title: string, content: string, userId: string) {
     const post = await prismaClient.post.create({
       data: {
         title,
         content,
+        userId,
       },
     })
 

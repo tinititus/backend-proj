@@ -10,8 +10,9 @@ import {
 class CreatePostController {
   async handle(ctx: Context) {
     const { title, content } = ctx.request.body
+    const userId = ctx.state.user
     const service = new CreatePostService()
-    const result = await service.execute(title, content)
+    const result = await service.execute(title, content, userId)
 
     return (ctx.body = result)
   }
