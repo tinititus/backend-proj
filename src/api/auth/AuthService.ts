@@ -45,7 +45,7 @@ class LoginService {
       createAndThrowError('Invalid credentials.', 401)
     }
 
-    return { user: user }
+    return { userId: user?.id, message: 'Login succeeded.' }
   }
 }
 
