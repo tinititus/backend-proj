@@ -19,18 +19,12 @@ class DeletePostService {
   async execute(id: string, userId: string) {
     const post = await prismaClient.post.findFirst({
       where: {
-        AND: [
-          {
-            id: {
-              equals: id,
-            },
-          },
-          {
-            userId: {
-              equals: userId,
-            },
-          },
-        ],
+        id: {
+          equals: id,
+        },
+        userId: {
+          equals: userId,
+        },
       },
     })
 
@@ -76,18 +70,12 @@ class UpdatePostService {
   async execute(id: string, content: string, userId: string) {
     const post = await prismaClient.post.findFirst({
       where: {
-        AND: [
-          {
-            id: {
-              equals: id,
-            },
-          },
-          {
-            userId: {
-              equals: userId,
-            },
-          },
-        ],
+        id: {
+          equals: id,
+        },
+        userId: {
+          equals: userId,
+        },
       },
     })
 
