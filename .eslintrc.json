@@ -22,7 +22,7 @@
       {
         "singleQuote": true,
         "semi": false,
-        "trailingComma": true
+        "trailingComma": "all"
       }
     ]
   }
