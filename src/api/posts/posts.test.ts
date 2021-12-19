@@ -1,5 +1,3 @@
-import request from 'supertest'
-import { server } from '../../server'
 import {
   CreatePostService,
   DeletePostService,
@@ -16,15 +14,16 @@ const post = {
   content: 'content-test',
   createdAt: newDate,
   updatedAt: newDate,
+  userId: 'user1',
 }
 
 describe('POST /posts', () => {
   it('should create a new post', async () => {
     const service = new CreatePostService()
     prismaMock.post.create.mockResolvedValue(post)
-    await expect(service.execute(post.title, post.content)).resolves.toEqual(
-      post
-    )
+    await expect(
+      service.execute(post.title, post.content, 'user1'),
+    ).resolves.toEqual(post)
   })
 })
 
@@ -47,8 +46,11 @@ describe('GET /posts/:id', () => {
 describe('PATCH /posts/:id', () => {
   it('should update post', async () => {
     const service = new UpdatePostService()
+    prismaMock.post.findFirst.mockResolvedValue(post)
     prismaMock.post.update.mockResolvedValue({ ...post, title: 'new-title' })
-    await expect(service.execute(post.id, 'new-title')).resolves.toEqual({
+    await expect(
+      service.execute(post.id, 'new-title', 'user1'),
+    ).resolves.toEqual({
       ...post,
       title: 'new-title',
     })
@@ -58,8 +60,9 @@ describe('PATCH /posts/:id', () => {
 describe('DELETE /posts/:id', () => {
   it('should delete a post', async () => {
     const service = new DeletePostService()
+    prismaMock.post.findFirst.mockResolvedValue(post)
     prismaMock.post.delete.mockResolvedValue(post)
-    await expect(service.execute(post.id)).resolves.toEqual({
+    await expect(service.execute(post.id, 'user1')).resolves.toEqual({
       message: 'Post deleted successfully!',
       postId: '1',
     })
