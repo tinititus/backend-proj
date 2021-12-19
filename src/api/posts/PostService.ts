@@ -1,12 +1,13 @@
-import prismaClient from '../prisma'
-import { createAndThrowError } from '../utils/createAndThrowError'
+import prismaClient from '../../prisma'
+import { createAndThrowError } from '../../utils/createAndThrowError'
 
 class CreatePostService {
-  async execute(title: string, content: string) {
+  async execute(title: string, content: string, userId: string) {
     const post = await prismaClient.post.create({
       data: {
         title,
         content,
+        userId,
       },
     })
 
@@ -15,8 +16,22 @@ class CreatePostService {
 }
 
 class DeletePostService {
-  async execute(id: string) {
-    // todo: check if user is owner of post
+  async execute(id: string, userId: string) {
+    const post = await prismaClient.post.findFirst({
+      where: {
+        id: {
+          equals: id,
+        },
+        userId: {
+          equals: userId,
+        },
+      },
+    })
+
+    if (!post) {
+      createAndThrowError('Post not owned by user', 403)
+    }
+
     try {
       await prismaClient.post.delete({
         where: {
@@ -52,8 +67,23 @@ class GetPostByIdService {
 }
 
 class UpdatePostService {
-  async execute(id: string, content: string) {
-    const post = await prismaClient.post.update({
+  async execute(id: string, content: string, userId: string) {
+    const post = await prismaClient.post.findFirst({
+      where: {
+        id: {
+          equals: id,
+        },
+        userId: {
+          equals: userId,
+        },
+      },
+    })
+
+    if (!post) {
+      createAndThrowError('Post not owned by user', 403)
+    }
+
+    const updatedPost = await prismaClient.post.update({
       where: {
         id: id,
       },
@@ -62,7 +92,7 @@ class UpdatePostService {
       },
     })
 
-    return post
+    return updatedPost
   }
 }
 

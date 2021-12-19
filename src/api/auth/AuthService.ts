@@ -1,7 +1,7 @@
-import prismaClient from '../prisma'
+import prismaClient from '../../prisma'
 import argon2 from 'argon2'
 
-import { createAndThrowError } from '../utils/createAndThrowError'
+import { createAndThrowError } from '../../utils/createAndThrowError'
 
 class SignupService {
   async execute(email: string, password: string) {
@@ -45,7 +45,7 @@ class LoginService {
       createAndThrowError('Invalid credentials.', 401)
     }
 
-    return { user: user }
+    return { userId: user?.id, message: 'Login succeeded.' }
   }
 }
 

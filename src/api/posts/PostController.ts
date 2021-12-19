@@ -5,13 +5,14 @@ import {
   GetPostByIdService,
   GetPostsService,
   UpdatePostService,
-} from '../services/PostService'
+} from './PostService'
 
 class CreatePostController {
   async handle(ctx: Context) {
     const { title, content } = ctx.request.body
+    const userId = ctx.state.user
     const service = new CreatePostService()
-    const result = await service.execute(title, content)
+    const result = await service.execute(title, content, userId)
 
     return (ctx.body = result)
   }
@@ -20,8 +21,9 @@ class CreatePostController {
 class DeletePostController {
   async handle(ctx: Context) {
     const { id } = ctx.params
+    const userId = ctx.state.user
     const service = new DeletePostService()
-    const result = await service.execute(id)
+    const result = await service.execute(id, userId)
 
     return (ctx.body = result)
   }
@@ -50,8 +52,9 @@ class UpdatePostController {
   async handle(ctx: Context) {
     const { id } = ctx.params
     const { content } = ctx.request.body
+    const userId = ctx.state.user
     const service = new UpdatePostService()
-    const result = await service.execute(id, content)
+    const result = await service.execute(id, content, userId)
 
     return (ctx.body = result)
   }

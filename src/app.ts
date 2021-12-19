@@ -1,7 +1,7 @@
 import Koa from 'koa'
 import logger from 'koa-logger'
 import bodyParser from 'koa-bodyparser'
-import router from './routes/index'
+import router from './api/index'
 import errorHandling from './middlewares/errorHandling'
 
 const app = new Koa()
@@ -10,7 +10,7 @@ const app = new Koa()
 app.use(logger())
 app.use(errorHandling)
 app.use(bodyParser())
-// todo: add cors, error handling, etc.
+// todo: add cors etc.
 app.use(router())
 
 export { app }

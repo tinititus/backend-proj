@@ -12,10 +12,12 @@ datasource db {
 
 model Post {
   id        String   @id @default(uuid())
+  userId    String
   title     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   content   String
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -24,4 +26,5 @@ model User {
   updatedAt DateTime @updatedAt
   email     String   @unique
   password  String
+  posts     Post[]   
 }

@@ -1,8 +1,5 @@
 import Router from 'koa-router'
-import {
-  LoginController,
-  SignupController,
-} from '../controllers/AuthController'
+import { LoginController, SignupController } from './AuthController'
 
 const router = new Router()
 
