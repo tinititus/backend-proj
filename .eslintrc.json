@@ -14,7 +14,7 @@
     "semi": "off",
     "require-jsdoc": "off",
     "object-curly-spacing": "off",
-    "indent": "warn",
+    "indent": "off",
     "comma-dangle": "warn",
     "no-unused-vars": "warn",
     "prettier/prettier": [
