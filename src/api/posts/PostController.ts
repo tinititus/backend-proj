@@ -1,69 +1,59 @@
 import { Context } from 'koa'
-import {
-  CreatePostService,
-  DeletePostService,
-  GetPostByIdService,
-  GetPostsService,
-  UpdatePostService,
-} from './PostService'
+import { PostService } from './PostService'
 
-class CreatePostController {
-  async handle(ctx: Context) {
+class PostController {
+  private static instance: PostController
+
+  static getInstance() {
+    if (this.instance) {
+      return this.instance
+    }
+    this.instance = new PostController()
+    return this.instance
+  }
+
+  public async createPost(ctx: Context) {
     const { title, content } = ctx.request.body
     const userId = ctx.state.user
-    const service = new CreatePostService()
-    const result = await service.execute(title, content, userId)
+    const service = new PostService()
+    const result = await service.createPost(title, content, userId)
 
     return (ctx.body = result)
   }
-}
 
-class DeletePostController {
-  async handle(ctx: Context) {
+  public async deletePost(ctx: Context) {
     const { id } = ctx.params
     const userId = ctx.state.user
-    const service = new DeletePostService()
-    const result = await service.execute(id, userId)
+    const service = new PostService()
+    const result = await service.deletePost(id, userId)
 
     return (ctx.body = result)
   }
-}
 
-class GetPostsController {
-  async handle(ctx: Context) {
-    const service = new GetPostsService()
-    const result = await service.execute()
+  public async getPosts(ctx: Context) {
+    const service = new PostService()
+    const result = await service.getPosts()
 
     return (ctx.body = result)
   }
-}
 
-class GetPostByIdController {
-  async handle(ctx: Context) {
+  public async getPostById(ctx: Context) {
     const { id } = ctx.params
-    const service = new GetPostByIdService()
-    const result = await service.execute(id)
+    const service = new PostService()
+    const result = await service.getPostById(id)
 
     return (ctx.body = result)
   }
-}
 
-class UpdatePostController {
-  async handle(ctx: Context) {
+  public async updatePost(ctx: Context) {
     const { id } = ctx.params
     const { content } = ctx.request.body
     const userId = ctx.state.user
-    const service = new UpdatePostService()
-    const result = await service.execute(id, content, userId)
+    const service = new PostService()
+    const result = await service.updatePost(id, content, userId)
 
     return (ctx.body = result)
   }
 }
 
-export {
-  CreatePostController,
-  DeletePostController,
-  GetPostsController,
-  GetPostByIdController,
-  UpdatePostController,
-}
+export { PostController }

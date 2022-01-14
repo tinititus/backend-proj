@@ -1,19 +1,14 @@
 import Router from 'koa-router'
-import {
-  CreatePostController,
-  DeletePostController,
-  GetPostByIdController,
-  GetPostsController,
-  UpdatePostController,
-} from './PostController'
+import { PostController } from './PostController'
 import { isAuth } from '../../middlewares/isAuth'
 
 const router = new Router()
+const postController = PostController.getInstance()
 
-router.post('/posts', isAuth, new CreatePostController().handle)
-router.delete('/posts/:id', isAuth, new DeletePostController().handle)
-router.get('/posts', new GetPostsController().handle)
-router.get('/posts/:id', new GetPostByIdController().handle)
-router.patch('/posts/:id', isAuth, new UpdatePostController().handle)
+router.post('/posts', isAuth, postController.createPost)
+router.delete('/posts/:id', isAuth, postController.deletePost)
+router.get('/posts', postController.getPosts)
+router.get('/posts/:id', postController.getPostById)
+router.patch('/posts/:id', isAuth, postController.updatePost)
 
 export default router

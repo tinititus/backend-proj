@@ -1,8 +1,18 @@
 import prismaClient from '../../prisma'
 import { createAndThrowError } from '../../utils/createAndThrowError'
 
-class CreatePostService {
-  async execute(title: string, content: string, userId: string) {
+class PostService {
+  private static instance: PostService
+
+  static getInstance() {
+    if (this.instance) {
+      return this.instance
+    }
+    this.instance = new PostService()
+    return this.instance
+  }
+
+  public async createPost(title: string, content: string, userId: string) {
     const post = await prismaClient.post.create({
       data: {
         title,
@@ -13,10 +23,8 @@ class CreatePostService {
 
     return post
   }
-}
 
-class DeletePostService {
-  async execute(id: string, userId: string) {
+  public async deletePost(id: string, userId: string) {
     const post = await prismaClient.post.findFirst({
       where: {
         id: {
@@ -44,18 +52,14 @@ class DeletePostService {
       createAndThrowError('Record to delete does not exist.', 400)
     }
   }
-}
 
-class GetPostsService {
-  async execute() {
+  public async getPosts() {
     const posts = await prismaClient.post.findMany()
 
     return posts
   }
-}
 
-class GetPostByIdService {
-  async execute(id: string) {
+  public async getPostById(id: string) {
     const post = await prismaClient.post.findUnique({
       where: {
         id: id,
@@ -64,10 +68,8 @@ class GetPostByIdService {
 
     return post
   }
-}
 
-class UpdatePostService {
-  async execute(id: string, content: string, userId: string) {
+  public async updatePost(id: string, content: string, userId: string) {
     const post = await prismaClient.post.findFirst({
       where: {
         id: {
@@ -96,10 +98,4 @@ class UpdatePostService {
   }
 }
 
-export {
-  CreatePostService,
-  DeletePostService,
-  GetPostsService,
-  GetPostByIdService,
-  UpdatePostService,
-}
+export { PostService }

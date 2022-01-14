@@ -1,21 +1,28 @@
 import { Context } from 'koa'
-import { LoginService, SignupService } from './AuthService'
+import { AuthService } from './AuthService'
+class AuthController {
+  private static instance: AuthController
 
-class SignupController {
-  async handle(ctx: Context) {
+  static getInstance() {
+    if (this.instance) {
+      return this.instance
+    }
+    this.instance = new AuthController()
+    return this.instance
+  }
+
+  public async signUp(ctx: Context) {
     const { email, password } = ctx.request.body
-    const service = new SignupService()
-    const result = await service.execute(email, password)
+    const service = AuthService.getInstance()
+    const result = await service.signUp(email, password)
 
     return (ctx.body = result)
   }
-}
 
-class LoginController {
-  async handle(ctx: Context) {
+  public async login(ctx: Context) {
     const { email, password } = ctx.request.body
-    const service = new LoginService()
-    const result = await service.execute(email, password)
+    const service = AuthService.getInstance()
+    const result = await service.login(email, password)
     const { userId } = result
 
     if (userId) {
@@ -29,4 +36,4 @@ class LoginController {
   }
 }
 
-export { SignupController, LoginController }
+export { AuthController }
