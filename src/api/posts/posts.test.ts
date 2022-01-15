@@ -15,7 +15,7 @@ describe('POST /posts', () => {
   it('should create a new post', async () => {
     prismaMock.post.create.mockResolvedValue(post)
     await expect(
-      postService.createPost(post.title, post.content, 'user1'),
+      postService.createPost(post.title, post.content, post.userId),
     ).resolves.toEqual({
       id: '1',
       title: 'title-test',
@@ -85,7 +85,7 @@ describe('PATCH /posts/:id', () => {
       content: 'new-content',
     })
     await expect(
-      postService.updatePost(post.id, 'new-content', 'user1'),
+      postService.updatePost(post.id, 'new-content', post.userId),
     ).resolves.toEqual({
       id: '1',
       title: 'title-test',
@@ -101,9 +101,11 @@ describe('DELETE /posts/:id', () => {
   it('should delete a post', async () => {
     prismaMock.post.findFirst.mockResolvedValue(post)
     prismaMock.post.delete.mockResolvedValue(post)
-    await expect(postService.deletePost(post.id, 'user1')).resolves.toEqual({
-      message: 'Post deleted successfully!',
-      postId: '1',
-    })
+    await expect(postService.deletePost(post.id, post.userId)).resolves.toEqual(
+      {
+        message: 'Post deleted successfully!',
+        postId: '1',
+      },
+    )
   })
 })
