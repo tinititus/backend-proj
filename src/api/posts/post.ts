@@ -1,9 +1,8 @@
 import Router from 'koa-router'
-import { PostController } from './PostController'
+import postController from './PostController'
 import { isAuth } from '../../middlewares/isAuth'
 
 const router = new Router()
-const postController = PostController.getInstance()
 
 router.post('/posts', isAuth, postController.createPost)
 router.delete('/posts/:id', isAuth, postController.deletePost)

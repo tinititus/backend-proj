@@ -2,16 +2,6 @@ import prismaClient from '../../prisma'
 import { createAndThrowError } from '../../utils/createAndThrowError'
 
 class PostService {
-  private static instance: PostService
-
-  static getInstance() {
-    if (this.instance) {
-      return this.instance
-    }
-    this.instance = new PostService()
-    return this.instance
-  }
-
   public async createPost(title: string, content: string, userId: string) {
     const post = await prismaClient.post.create({
       data: {
@@ -98,4 +88,4 @@ class PostService {
   }
 }
 
-export { PostService }
+export default new PostService()

@@ -4,16 +4,6 @@ import argon2 from 'argon2'
 import { createAndThrowError } from '../../utils/createAndThrowError'
 
 class AuthService {
-  private static instance: AuthService
-
-  static getInstance() {
-    if (this.instance) {
-      return this.instance
-    }
-    this.instance = new AuthService()
-    return this.instance
-  }
-
   async signUp(email: string, password: string) {
     const userAlreadyExists = await prismaClient.user.findUnique({
       where: {
@@ -57,4 +47,4 @@ class AuthService {
   }
 }
 
-export { AuthService }
+export default new AuthService()
