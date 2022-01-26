@@ -1,10 +1,22 @@
 import { Context, Next } from 'koa'
+import jwt from 'jsonwebtoken'
 import { createAndThrowError } from '../utils/createAndThrowError'
 
+interface DecodedToken {
+  email: string
+  exp: number
+  iat: number
+  userId: string
+}
+
 export function isAuth(ctx: Context, next: Next) {
-  if (ctx.cookies.get('isAuth') !== 'true') {
-    createAndThrowError('Not authenticated.', 403)
+  const token = ctx.get('Authorization').split(' ')[1]
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as DecodedToken
+
+  if (!decodedToken) {
+    createAndThrowError('Not authenticated.', 401)
   }
-  ctx.state.user = ctx.cookies.get('userId')
+
+  ctx.state.user = decodedToken.userId
   return next()
 }

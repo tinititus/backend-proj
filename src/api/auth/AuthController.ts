@@ -11,16 +11,8 @@ class AuthController {
   public async login(ctx: Context) {
     const { email, password } = ctx.request.body
     const result = await authService.login(email, password)
-    const { userId } = result
 
-    if (userId) {
-      ctx.cookies.set('isAuth', 'true', {
-        expires: new Date(Date.now() + 3600 * 1000),
-      })
-      ctx.cookies.set('userId', `${userId}`)
-    }
-
-    return (ctx.body = { message: result.message })
+    return (ctx.body = { ...result })
   }
 }
 
