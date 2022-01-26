@@ -1,9 +1,9 @@
 {
-  "author": "tinititus <tito.carvalho@fdte.io>",
+  "author": "tinititus <titoxmartini@gmail.com>",
   "name": "backend-proj",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:tinititus/reddit-clone.git",
+  "repository": "git@github.com:tinititus/backend-proj.git",
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --exit-child src/server.ts",
