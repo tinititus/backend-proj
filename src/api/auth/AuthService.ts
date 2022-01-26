@@ -5,11 +5,10 @@ import nodemailer from 'nodemailer'
 import nodemailerSendgrid from 'nodemailer-sendgrid'
 
 import { createAndThrowError } from '../../utils/createAndThrowError'
-import { randomBytes } from 'crypto'
 
 const transport = nodemailer.createTransport(
   nodemailerSendgrid({
-    apiKey: process.env.SENDGRID_API_KEY,
+    apiKey: process.env.SENDGRID_API_KEY!,
   }),
 )
 
@@ -35,7 +34,7 @@ class AuthService {
 
     await transport.sendMail({
       to: email,
-      from: 'titoxmartini@gmail.com',
+      from: process.env.SENDMAIL_FROM,
       subject: 'Welcome to backend-proj',
       html: '<h1>You successfully signed up!</h1>',
     })
@@ -62,7 +61,7 @@ class AuthService {
 
     const token = jwt.sign(
       { email: email, userId: user.id },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET!,
       { expiresIn: '1h' },
     )
 
