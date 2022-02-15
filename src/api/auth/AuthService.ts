@@ -5,6 +5,7 @@ import nodemailer from 'nodemailer'
 import nodemailerSendgrid from 'nodemailer-sendgrid'
 
 import { createAndThrowError } from '../../utils/createAndThrowError'
+import { randomBytes } from 'crypto'
 
 const transport = nodemailer.createTransport(
   nodemailerSendgrid({
@@ -13,7 +14,7 @@ const transport = nodemailer.createTransport(
 )
 
 class AuthService {
-  async signUp(email: string, password: string) {
+  public async signUp(email: string, password: string) {
     const userAlreadyExists = await prismaClient.user.findUnique({
       where: {
         email: email,
@@ -42,7 +43,7 @@ class AuthService {
     return { message: 'User created!', userId: user.id }
   }
 
-  async login(email: string, password: string) {
+  public async login(email: string, password: string) {
     const user = await prismaClient.user.findUnique({
       where: {
         email: email,
@@ -66,6 +67,88 @@ class AuthService {
     )
 
     return { token: token, userId: user.id, message: 'Login succeeded.' }
+  }
+
+  public async createResetToken(email: string) {
+    const user = await prismaClient.user.findUnique({
+      where: {
+        email: email,
+      },
+    })
+
+    if (!user) {
+      createAndThrowError('Account not found', 404)
+    }
+
+    randomBytes(32, async (error, buffer) => {
+      if (error) {
+        createAndThrowError(error.message, 500)
+      }
+
+      const token = buffer.toString('hex')
+      const requestedDate = Date.now()
+      const tokenExpiration = requestedDate + 3600000
+      await prismaClient.tokenReset.create({
+        data: {
+          tokenHash: token,
+          requestedDate: new Date(requestedDate),
+          expirationDate: new Date(tokenExpiration),
+          userId: user.id,
+        },
+      })
+      await transport.sendMail({
+        to: email,
+        from: process.env.SENDMAIL_FROM,
+        subject: 'Password Reset',
+        html: `
+          <p>You requested a password reset</p>
+          <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
+        `,
+      })
+    })
+    return {
+      message: 'If the informed account exists, an e-mail should arrive soon.',
+    }
+  }
+
+  public async saveNewPassword(newPassword: string, token: string) {
+    const tokenReset = await prismaClient.tokenReset.findFirst({
+      where: {
+        tokenHash: {
+          equals: token,
+        },
+        expirationDate: {
+          gt: new Date(Date.now()),
+        },
+        done: {
+          equals: false,
+        },
+      },
+    })
+
+    if (!tokenReset) {
+      createAndThrowError('Invalid token', 400)
+    }
+
+    const hashedPassword = await argon2.hash(newPassword)
+    await prismaClient.user.update({
+      where: {
+        id: tokenReset.userId,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    })
+    await prismaClient.tokenReset.update({
+      where: {
+        id: tokenReset.id,
+      },
+      data: {
+        done: true,
+      },
+    })
+
+    return { message: 'Password changed successfully!' }
   }
 }
 

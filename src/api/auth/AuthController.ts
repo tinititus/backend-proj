@@ -14,6 +14,20 @@ class AuthController {
 
     return (ctx.body = { ...result })
   }
+
+  public async createResetToken(ctx: Context) {
+    const { email } = ctx.request.body
+    const result = await authService.createResetToken(email)
+
+    return (ctx.body = { ...result })
+  }
+
+  public async saveNewPassword(ctx: Context) {
+    const { token, newPassword } = ctx.request.body
+    const result = await authService.saveNewPassword(newPassword, token)
+
+    return (ctx.body = { ...result })
+  }
 }
 
 export default new AuthController()
