@@ -80,6 +80,21 @@ class AuthService {
       createAndThrowError('Account not found', 404)
     }
 
+    const activeToken = await prismaClient.tokenReset.findFirst({
+      where: {
+        userId: {
+          equals: user.id,
+        },
+        expirationDate: {
+          lt: new Date(),
+        },
+      },
+    })
+
+    if (activeToken) {
+      createAndThrowError('Wait until you may generate a new token.', 400)
+    }
+
     randomBytes(32, async (error, buffer) => {
       if (error) {
         createAndThrowError(error.message, 500)
